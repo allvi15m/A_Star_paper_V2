@@ -1,0 +1,186 @@
+
+%use mybib.bib for bibliography. bibtex is used for bibliography
+\documentclass[journal]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+%\usepackage{wrapfig}
+\usepackage{float}
+%\usepackage[section]{placeins}
+%\usepackage{subcaption}
+\usepackage{array}
+\usepackage[export]{adjustbox}
+\usepackage{tabu}
+\usepackage{listings}
+\usepackage{siunitx}
+\ifCLASSINFOpdf
+
+\else
+
+\fi
+
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+
+\title{Review and Modeling of Power Electronic Converter for Digital Real-Time Simulation}
+
+\author{Tanvir Ahmed Toshon, Alvi Newaz}
+
+
+
+
+
+
+\maketitle
+
+
+\begin{abstract}
+Real-time modeling of power electronic converters is essential for proper design and hardware or controller-in-the-loop experimentation. The purpose of this paper is to present a brief review of the modeling techniques for power electronics switches which includes both system and device level modeling. Both six and twelve pulse thyristor controller rectifier (TCR) model is developed in real-time environment using RT-Lab. A case study has been performed where fault current limiting is done by TCR and a comparison in between real-time and offline simulation results is presented. 
+
+\end{abstract}
+
+
+
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+
+Real-time HIL(Hardware-in-the-loop) technology is becoming a popular application for designing and testing power electronic converters. It is important to model the converters accurately for proper application. The model accuracy depends on the application of the model. High switching frequency of these converters is a major barrier for real-time modeling as very small time steps is required for capturing the switching transitions \cite{faruque2015real}. As shown in Fig. \ref{fig:T1}, the power electronics converter requires very small time steps for accurate simulation in real-time environment. Filed-Programmable Gate Array (FPGA) is regarded as a solution to overcome the time step requirements to capture the switching actions of switching converters  \cite{faruque2015real}. FPGA can be paralleled at a hardware layer. Publications \cite{matar2010fpga}-\cite{myaing2011fpga} proposed different switch modeling techniques such as ideal switch, behavioural model, ADC-based model, state space model etc. The switch model is first selected and traditional method is employed to apply nodal analysis to develop a set of ordinary differential equations for each switching state \cite{matar2010fpga}. Each set of differential equations are then discretized using methods such as Euler methods, trapezoidal methods etc. This enables solving the equations by applying pre-calculated inverse matrix of difference equations.
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf1}
+    \caption{Time-step requirement of different applications. \cite{belanger2010and}}
+    \label{fig:T1}
+\end{figure}
+
+Various system level and device level modeling approaches have also been applied for modeling power electronic converter recently \cite{budihardjo1995defining}. The performance of these models vary significantly from each other which inaugurates challenges for selecting suitable model for any specific application. System level modeling can be found in \cite{jin1997behavior}-\cite{middlebrook1976general} where ideal, switching function, average model etc. is developed for respective switching converters. The ideal model only employs on off resistance for the switching action whereas the switching function model represents the system as controllable voltage or current sources which captures the switching states precisely. The average model is a mathematical model which ignores the switching actions and average behavior of the systems is presented. Depending on the application and computational abilities any one of these model can be derived for any switching converters.
+
+This paper explores the system and device level modeling techniques for switching converters along with the discrete time modeling and mentions the advantages and disadvantages of each technique. Both six pulse and twelve pulse TCR model is developed and tested in real-time environment. Case studies are performed to test the accuracy of the implemented model along with the comparison with Matlab Simulink based offline model.
+
+\section{Review on modeling techniques}
+
+\subsection{System-level models}
+System level modeling can be classified into three categories such as ideal model, switching function model and average model. A description of these three modeling techniques can be found in the following subsections.
+
+
+\subsubsection{Ideal Model}
+Ideal switch model can be represented as an on and off resistance as seen in Fig. \ref{fig:T2}. It has a zero resistance when on and infinite resistance when turned off. The switching action from one state to another is instantaneous. The state of the switch can be a function of switch current, voltage or any other drive signal. For uncontrollable switches like diode there should be no switching function.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf2.png}
+    \caption{Ideal switch model}
+    \label{fig:T2}
+\end{figure}
+
+\subsubsection{Switching Function Model}
+The switching model of power electronic switch describes the behaviour by controlled current or voltage sources. The switched model can be regarded as a useful tool which emphasizes the application of external control actions \cite{bacha2014power}. Fig. \ref{fig:T3} shows a three-phase voltage source converter electrical models. Three switches can obtain $2^{N}$ state, as $N=3$, so $8$ possible switching states and the figure shows two out of eight. Asn equivalent circuit with voltage or current sources can be formed and circuit is evaluated for each switching state.   
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf3.png}
+    \caption{a) Schematic diagram of a three-phase four wire voltage source converter \cite{bacha2014power} b) Two possible switching state from the binary combination of switching functions  }
+    \label{fig:T3}
+\end{figure}
+
+\subsubsection{Average model}
+Average models replicates an average behaviour of different switching state. It is computed on a small time window which is smaller when compared to system dynamics. Mathematical equations are derived for the converter to develop this model. The average model is less accurate than the switching function model in terms dynamic behaviour of the converter. But one advantage is that it is computationally less intensive.
+
+
+\subsection{Device-level models}
+
+Device-level power electronic switch modeling can be divided into four main categories analytical model, behavioural model, numerical model and hybrid model. These models are described in the following subsections.
+
+
+\subsubsection{Analytical model}
+
+These models can accurately represent steady state and transient operation of the device based on physics of the device. Research done in \cite{hefner1990analytical} develops an analytical model for IGBT which accurately simulates the on-state current voltage characteristics along with the transient voltage and current waveforms for general loading conditions. The model is derived employing ambipolar transport to present the electron and hole transportation in the low-doped epitaxial layer.
+
+
+\subsubsection{Behavioral Model}
+Behavioral model represents excellent prediction of device performance but it ignores the physical characteristics of the device. This modeling technique can utilize a device datasheet which enables a comprehensive device level simulation. System level models are simplified enough to implement in real-time environment but detailed switching transients can be missing utilizing that technique where behavioral model offers a solution but with the disadvantage of complexity in the model. The Hammerstein and the Weiner models are two potential candidate for behavioral models \cite{liang2017real}. From power electronic modeling perspective Hammerstein model is proffered as the dynamic changes occur after applied conditions \cite{liang2017real}. Fig. \ref{fig:T4} shows the block diagram for the Hammerstein configuration. Research done in  \cite{liang2017real} develops four modeling procedures such as the static electrical model, the dynamic electrical model, the transient power loss model and the thermal network models for proper behavioral model formulation of diode, IGBT and thyristor. 
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf4.png}
+    \caption{The Hammerstein configuration \cite{liang2017real} }
+    \label{fig:T4}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf5.png}
+    \caption{Hammerstein configuration for : (a) representation during turn-off (b) conductance based representation during turn-on (c) steady-state on and off representation \cite{liang2017real} }
+    \label{fig:T5}
+\end{figure}
+
+Fig. \ref{fig:T5} shows the complete Hammerstein configuration for a power electronic switch. In half or uncontrolled devices Fig. \ref{fig:T5}(a) can be the configuration. But for fully controlled device such as IGBTs, the circuit matrix equation needs to solved prior to the prediction of the peak value of turn-on current.
+
+
+\subsubsection{Numerical and Hybrid Model}
+Numerical model is able to simulate the device electrical, thermal and optical characteristics simultaneously by employing finite element method (FEM) without the need for fabricating the physical device. It employs ADE which eventually results in ordinary differential equations for the systems. This approach can be implemented n software such as SPICE and the ODEs can be solved representing charge carrier distribution in a low doped zone \cite{liang2017real}. Parameter extraction from the model can be done by developing suitable algorithm. Hybrid model can be the combination of any of these modeling techniques. For example the research done in \cite{sheng2000review} applied FEM based methods to model the base for the IGBT switch while the other parts are modeled with analytical methods.
+
+\subsection{Discrete-Time Switch Model}
+Discrete time switch model which is suitable for simulation can be developed considering the circuit model shown in Fig. \ref{fig:T6}. This form of the circuit shows the characteristics of a non-linear resistor. General circuit simulator such as Spice, represents the model on the figure as a small resistant when on and a large resistance when off \cite{pejovic1994method}. This method demands intensive computational effort during switching transitions as iterative solution must be applied to execute the calculation for each simulation step.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=3.5in]{tf6.png}
+    \caption{Discrete time switch model \cite{pejovic1994method}}
+    \label{fig:T6}
+\end{figure}
+
+A more effective solution can be achieved when the fact is exploited that characteristic of an ideal switch is piece-wise linear \cite{pejovic1994method}. In order to avoid the iterations, the conductance matrix is declared as a constant and the simulation step is reflected only by the current generator $J_{s}^{n+1}$. It should also be mentioned that the system matrix only includes the conductance matrix while the current $j_{s}$ enters the independent sources vector in the equivalent discrete circuit. According to \cite{pejovic1994method} the value of the current source can be obtained by the following equations
+
+\begin{equation}
+\label{eq:A1}
+j_{s}^{n+1}=
+\begin{cases}
+  -i_{s}^{n}, & \text{if } s_{n+1}=1\\
+  G_s.v_s^n, & \text{if } s_{n+1}=0
+\end{cases}
+\end{equation}
+
+The error introduced by this approximation can be given by \cite{pejovic1994method},
+\begin{equation}
+\label{eq:A2}
+v_s^{n+1} (s=1) = \frac{1}{G_s} (i_s^{n+1}-i_s^n)
+\end{equation}
+\begin{equation}
+\label{eq:A3}
+i_s^{n+1} (s=0) = {G_s} (v_s^{n+1}-v_s^n)
+\end{equation}
+
+These errors can be negligible if the network is linear, time-invariant and stable which mean s it should have all the poles in the left half plane.
+
+
+\input{Alvi}
+
+
+
+
+
+\section{Conclusion}
+This paper represents the modeling techniques of power electronic converters for DRTS. The real-time and off-line simulation results for both twelve pulse and six pulse TCR were presented. From the results, it is evident the six pulse TCR might not be suitable for MVDC application. On the other hand, the results indicate that the twelve pulse TCR can be considered as a potential candidate for MVDC fault current limiting applications.
+
+\bibliographystyle{IEEEtran}
+\bibliography{mybib.bib}
+
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+\end{document}
+
+
