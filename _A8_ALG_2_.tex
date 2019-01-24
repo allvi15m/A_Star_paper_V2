@@ -28,7 +28,7 @@
             \State \textbf{continue}
         \EndIf
         \If{Child node in $Open\_Set$}
-            \If{$G\_cost[child]$ >= $G\_cost$ already in open list}
+            \If{$G\_cost[child]$ $\geq$ $G\_cost$ already in $Open\_Set$}
                 \State \textbf{continue}
             \EndIf
         \EndIf
@@ -45,6 +45,6 @@
     $Current\_Node = Best\_Parent[Current\_Node]$
     $Best\_Path.add(Current\_Node)$ \Comment{Add $Current\_Node$ to $Best\_Path$}
 \EndWhile
-\Return $Best\_Path$
+\State \Return $Best\_Path$
 \EndFunction
 \end{algorithmic}
