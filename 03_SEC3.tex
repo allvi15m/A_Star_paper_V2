@@ -19,7 +19,7 @@ A* is a computer algorithm which is widely used to solve graph search problems. 
 % \end{figure}
 
 \subsection{Implementation}
-By defining the solution space with a combination of nodes and edges, the ESM optimization problem can be formulated as a graph search problem. At the inception, the starting node is determined by the current status of the system. Then, the following nodes and edges are generated using the forecasted data available.\textcolor{blue}{The goal of the algorithm is to reach a node at time T = end. If the node with the least cost in the open list is any node at T = end the algorithm stops and the path to that node is selected as the optimum path.} The system status is assumed to be constant between time steps. The cost of going from a parent node to a child node is calculated by combining the real cost of getting to that child node and the heuristic cost of getting to the goal from that child node. The real cost of going from a parent node $p$ at time $T=t$ to a child node $c$ at time $T=t+\Delta T$ is denoted as $C_{actual}(pc)$. It is calculated according to (\ref{eq:C_actual}).
+By defining the solution space with a combination of nodes and edges, the ESM optimization problem can be formulated as a graph search problem. At the inception, the starting node is determined by the current status of the system. Then, the following nodes and edges are generated using the forecasted data available.\textcolor{blue}{The goal of the algorithm is to reach a node at time T = end. If the node with the least cost in the open list is any node at T = end the algorithm stops and the path to that node is selected as the optimum path. This process is repeated every time-step to get the optimum path based on the current system status. This allows the algorithm to cope with the fast-changing DGs and compensate for prediction errors as the prediction is always updated every time state based on the system status. By ensuring the algorithm is always using the updated status every time step to calculate the most optimum path based on the data available, the approach ensures an optimal solution over a long period of time as the solution on each time step is optimized based on the data available.} The system status is assumed to be constant between time steps. The cost of going from a parent node to a child node is calculated by combining the real cost of getting to that child node and the heuristic cost of getting to the goal from that child node. The real cost of going from a parent node $p$ at time $T=t$ to a child node $c$ at time $T=t+\Delta T$ is denoted as $C_{actual}(pc)$. It is calculated according to (\ref{eq:C_actual}).
 
 \begin{equation}
 \label{eq:C_actual}
@@ -64,4 +64,6 @@ R_{best}(n) =
 \end{equation}
 
 After calculating the actual cost  $C_{actual}(pc)$ and heuristic cost $C_H(t)$, the total cost is finally calculated by adding  $C_{actual}(pc)$ and $C_H(t)$.
+
+
 

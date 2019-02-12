@@ -13,7 +13,7 @@ In order to test the proposed A* algorithm, an electric power system (EPS) model
 R_{ESS} = \dfrac{ES_{tot}}{Cyc\cdot ES_{Cap}\cdot DoD\cdot \eta_{r}},
 \end{equation}
 
-where $ES_{tot}$ is the total cost of the ES system, $DoD$ is the desired depth-of-discharge of the ES system, $Cyc$ is the total number of cycles under warranty at depth-of-discharge, $ES_{Cap}$ is the total energy capacity of the ES system, and $\eta_r$ is the round-trip efficiency of the system. The data used to calculate the $R_{ESS}$ price used in the study were obtained from publicly available data on a commercial ES solution \cite{tesla_powerpack_2018}. 
+Where $ES_{tot}$ is the total cost of the ES system, $DoD$ is the desired depth-of-discharge of the ES system, $Cyc$ is the total number of cycles under warranty at depth-of-discharge, $ES_{Cap}$ is the total energy capacity of the ES system, and $\eta_r$ is the round-trip efficiency of the system. The data used to calculate the $R_{ESS}$ price used in the study were obtained from publicly available data on a commercial ES solution \cite{tesla_powerpack_2018}. \textcolor{blue}{Using this method to determine $R_{ESS}$ makes the algorithm suitable to use for any type of battery energy storage.The effects different energy storage will have on the algorithm is a change in $R_{ESS}$, a different range for upper and lower bounds of state of charge and different charging and discharging capability. All these properties can be easily modified in the algorithm.}
 
 %%%%%%%%PV%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
